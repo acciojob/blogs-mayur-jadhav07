@@ -5,7 +5,6 @@ import com.driver.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -37,8 +36,14 @@ public class ImageService {
         Optional<Image> imageOptional = imageRepository2.findById(id);
         if(imageOptional.isPresent()){
             Image image = imageOptional.get();
-            String[] imageDimensionsArray = image.getDimension().split("x");
-            int count = 0;
+            String[] imageDimensionsArray = image.getDimensions().split("x");
+            int imageWidth = Integer.parseInt(imageDimensionsArray[0]);
+            int imageHeight = Integer.parseInt(imageDimensionsArray[1]);
+            String[] screenDimensionsArray = screenDimensions.split("x");
+            int screenWidth = Integer.parseInt(screenDimensionsArray[0]);
+            int screenHeight = Integer.parseInt(screenDimensionsArray[1]);
+            int count = (screenWidth / imageWidth) * (screenHeight / imageHeight);
+            return count;
         }
         return 0;
     }

@@ -2,35 +2,34 @@ package com.driver.models;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "blogs")
 public class Blog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int blogId;
+    private int id;
     private String title;
     private String content;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at")
-    private Date createdAt;
+    private Date pubDate;
 
     @ManyToOne
     @JoinColumn
     private User user;
 
     public Blog(){
-        this.createdAt = new Date();
+        this.pubDate = new Date();
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
+    public Date getPubDate() {
+        return pubDate;
     }
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
+    public void setPubDate(Date pubDate) {
+        this.pubDate = pubDate;
     }
 
     public User getUser() {
@@ -41,8 +40,8 @@ public class Blog {
         this.user = user;
     }
 
-    public void setBlogId(int blogId) {
-        this.blogId = blogId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Blog(String title, String content) {
@@ -51,13 +50,13 @@ public class Blog {
     }
 
     public Blog(int blogId, String title, String content) {
-        this.blogId = blogId;
+        this.id = blogId;
         this.title = title;
         this.content = content;
     }
 
-    public int getBlogId() {
-        return blogId;
+    public int getId() {
+        return id;
     }
 
 

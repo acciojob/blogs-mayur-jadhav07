@@ -9,7 +9,7 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int imageId;
     private String description;
-    private String dimension;
+    private String dimensions;
 
     @ManyToOne
     @JoinColumn
@@ -29,13 +29,13 @@ public class Image {
 
     public Image(String description, String dimension) {
         this.description = description;
-        this.dimension = dimension;
+        this.dimensions = dimension;
     }
 
-    public Image(int imageId, String description, String dimension) {
+    public Image(int imageId, String description, String dimensions) {
         this.imageId = imageId;
         this.description = description;
-        this.dimension = dimension;
+        this.dimensions = dimensions;
     }
 
     public int getImageId() {
@@ -54,11 +54,11 @@ public class Image {
         this.description = description;
     }
 
-    public String getDimension() {
-        return dimension;
+    public String getDimensions() {
+        return dimensions;
     }
 
-    public void setDimension(String dimension) {
-        this.dimension = dimension;
+    public void setDimensions(String dimensions) {
+        this.dimensions = dimensions;
     }
 }
