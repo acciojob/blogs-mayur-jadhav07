@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int imageId;
+    private int id;
     private String description;
     private String dimensions;
 
@@ -33,17 +33,17 @@ public class Image {
     }
 
     public Image(int imageId, String description, String dimensions) {
-        this.imageId = imageId;
+        this.id = imageId;
         this.description = description;
         this.dimensions = dimensions;
     }
 
-    public int getImageId() {
-        return imageId;
+    public int getId() {
+        return id;
     }
 
-    public void setImageId(int imageId) {
-        this.imageId = imageId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getDescription() {
