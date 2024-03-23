@@ -29,7 +29,7 @@ public class BlogService {
             User user = userOptional.get();
             Blog blog = new Blog(title, content);
             blog.setUser(user);
-            blogRepository1.save(blog);
+            return blogRepository1.save(blog); // Return the created blog
         }
         return null;
     }

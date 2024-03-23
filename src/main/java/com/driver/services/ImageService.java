@@ -32,18 +32,28 @@ public class ImageService {
     }
 
     public int countImagesInScreen(Integer id, String screenDimensions) {
-        //Find the number of images of given dimensions that can fit in a screen having `screenDimensions`
-        Optional<Image> imageOptional = imageRepository2.findById(id);
-        if(imageOptional.isPresent()){
-            Image image = imageOptional.get();
-            String[] imageDimensionsArray = image.getDimensions().split("x");
-            int imageWidth = Integer.parseInt(imageDimensionsArray[0]);
-            int imageHeight = Integer.parseInt(imageDimensionsArray[1]);
-            String[] screenDimensionsArray = screenDimensions.split("x");
-            int screenWidth = Integer.parseInt(screenDimensionsArray[0]);
-            int screenHeight = Integer.parseInt(screenDimensionsArray[1]);
-            int count = (screenWidth / imageWidth) * (screenHeight / imageHeight);
-            return count;
+        // Find the number of images of given dimensions that can fit in a screen having `screenDimensions`
+        try {
+            Optional<Image> imageOptional = imageRepository2.findById(id);
+            if (imageOptional.isPresent()) {
+                Image image = imageOptional.get();
+                String[] imageDimensionsArray = image.getDimensions().split("X");
+                if (imageDimensionsArray.length != 2) {
+                    throw new IllegalArgumentException("Invalid image dimensions format");
+                }
+                int imageWidth = Integer.parseInt(imageDimensionsArray[0]);
+                int imageHeight = Integer.parseInt(imageDimensionsArray[1]);
+                String[] screenDimensionsArray = screenDimensions.split("X");
+                if (screenDimensionsArray.length != 2) {
+                    throw new IllegalArgumentException("Invalid screen dimensions format");
+                }
+                int screenWidth = Integer.parseInt(screenDimensionsArray[0]);
+                int screenHeight = Integer.parseInt(screenDimensionsArray[1]);
+                int count = (screenWidth / imageWidth) * (screenHeight / imageHeight);
+                return count;
+            }
+        } catch (IllegalArgumentException e) {
+            System.err.println("Error processing image or screen dimensions: " + e.getMessage());
         }
         return 0;
     }

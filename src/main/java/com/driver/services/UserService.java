@@ -29,7 +29,7 @@ public class UserService {
         if(userOptional.isPresent()){
             User user = userOptional.get();
             user.setPassword(password);
-            userRepository3.save(user);
+            return userRepository3.save(user); // Return the updated user
         }
         return null;
     }
