@@ -28,7 +28,12 @@ public class ImageService {
     }
 
     public void deleteImage(Integer id){
-        blogRepository2.deleteById(id);
+        Optional<Image> imageOptional = imageRepository2.findById(id);
+        if (imageOptional.isPresent()) {
+            imageRepository2.deleteById(id);
+        } else {
+            throw new IllegalArgumentException("Image with id " + id + " not found");
+        }
     }
 
     public int countImagesInScreen(Integer id, String screenDimensions) {
