@@ -23,18 +23,19 @@ public class BlogService {
     UserRepository userRepository1;
 
     public Blog createAndReturnBlog(Integer userId, String title, String content) {
-        Optional<User> userOptional = userRepository1.findById(userId);
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            Blog blog = new Blog(title, content);
-            blog.setUser(user);
-            return blogRepository1.save(blog); // Return the created blog
-        } else {
-            throw new IllegalArgumentException("User with id " + userId + " not found");
-        }
+        User user = userRepository1.findById(userId).get();
+        Blog blog = new Blog();
+        blog.setTitle(title);
+        blog.setUser(user);
+        blog.setPubDate(new Date());
+        blog.setContent(content);
+        user.getBlogList().add(blog);
+        blogRepository1.save(blog);
+        userRepository1.save(user);
+        return blog;
     }
 
-    public void deleteBlog(int blogId){
+    public void deleteBlog(int blogId) {
         //delete blog and corresponding images
         blogRepository1.deleteById(blogId);
     }

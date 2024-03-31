@@ -15,51 +15,40 @@ public class ImageService {
     @Autowired
     ImageRepository imageRepository2;
 
-    public Image addImage(Integer blogId, String description, String dimensions){
+    public Image addImage(Integer blogId, String description, String dimensions) {
         //add an image to the blog
-        Optional<Blog> blogOptional = blogRepository2.findById(blogId);
-        if(blogOptional.isPresent()){
-            Blog blog = blogOptional.get();
-            Image image = new Image(description, dimensions);
-            image.setBlog(blog);
-            return imageRepository2.save(image);
-        }
-        return null;
+        Image image = new Image();
+        image.setDescription(description);
+        image.setDimensions(dimensions);
+
+        Blog blog = blogRepository2.findById(blogId).get();
+        image.setBlog(blog);
+
+        // add list to blog
+        blog.getImageList().add(image);
+        blogRepository2.save(blog);
+        return image;
     }
 
-    public void deleteImage(Integer id){
-        Optional<Image> imageOptional = imageRepository2.findById(id);
-        if (imageOptional.isPresent()) {
-            imageRepository2.deleteById(id);
-        } else {
-            throw new IllegalArgumentException("Image with id " + id + " not found");
-        }
+    public void deleteImage(Integer id) {
+        imageRepository2.deleteById(id);
     }
 
     public int countImagesInScreen(Integer id, String screenDimensions) {
         // Find the number of images of given dimensions that can fit in a screen having `screenDimensions`
-        try {
-            Optional<Image> imageOptional = imageRepository2.findById(id);
-            if (imageOptional.isPresent()) {
-                Image image = imageOptional.get();
-                String[] imageDimensionsArray = image.getDimensions().split("X");
-                if (imageDimensionsArray.length != 2) {
-                    throw new IllegalArgumentException("Invalid image dimensions format");
-                }
-                int imageWidth = Integer.parseInt(imageDimensionsArray[0]);
-                int imageHeight = Integer.parseInt(imageDimensionsArray[1]);
-                String[] screenDimensionsArray = screenDimensions.split("X");
-                if (screenDimensionsArray.length != 2) {
-                    throw new IllegalArgumentException("Invalid screen dimensions format");
-                }
-                int screenWidth = Integer.parseInt(screenDimensionsArray[0]);
-                int screenHeight = Integer.parseInt(screenDimensionsArray[1]);
-                int count = (screenWidth / imageWidth) * (screenHeight / imageHeight);
-                return count;
-            }
-        } catch (IllegalArgumentException e) {
-            System.err.println("Error processing image or screen dimensions: " + e.getMessage());
-        }
-        return 0;
+        Image image = imageRepository2.findById(id).get();
+        int countImages = 0;
+        String[] screenSize = screenDimensions.split("X");
+        String[] imageSize = image.getDimensions().split("X");
+
+        // finding height and width of image
+        int imageH = Integer.parseInt(imageSize[0]);
+        int imageW = Integer.parseInt(imageSize[1]);
+
+        // finding height and width of screen
+        int screenH = Integer.parseInt(screenSize[0]);
+        int screenW = Integer.parseInt(screenSize[1]);
+
+        return (screenH / imageH) * (screenW / imageW);
     }
 }

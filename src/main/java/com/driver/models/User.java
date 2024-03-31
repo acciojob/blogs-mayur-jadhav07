@@ -2,19 +2,19 @@ package com.driver.models;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Entity
-@Table(name = "users")
+@Table
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private String username;
-
     private String password;
-
+    private String firstName;
+    private String lastName;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Blog> blogList = new ArrayList<>();
 
@@ -26,23 +26,22 @@ public class User {
         this.blogList = blogList;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+        this.firstName = "test";
+        this.lastName = "test";
     }
 
     public User() {
-
     }
 
-    public User(String userName, String password) {
-        this.username = userName;
-        this.password = password;
+    public Integer getId() {
+        return id;
     }
 
-    public User(Integer userId, String userName, String password) {
-        this.id = userId;
-        this.username = userName;
-        this.password = password;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getUsername() {
@@ -61,7 +60,19 @@ public class User {
         this.password = password;
     }
 
-    public Integer getId() {
-        return id;
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }

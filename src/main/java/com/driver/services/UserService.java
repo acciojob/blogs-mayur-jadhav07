@@ -14,19 +14,19 @@ public class UserService {
     @Autowired
     UserRepository userRepository3;
 
-    public User createUser(String username, String password){
+    public User createUser(String username, String password) {
         User user = new User(username, password);
-        user = userRepository3.save(user);
+        userRepository3.save(user);
         return user;
     }
 
-    public void deleteUser(int userId){
+    public void deleteUser(int userId) {
         userRepository3.deleteById(userId);
     }
 
-    public User updateUser(Integer id, String password){
+    public User updateUser(Integer id, String password) {
         Optional<User> userOptional = userRepository3.findById(id);
-        if(userOptional.isPresent()){
+        if (userOptional.isPresent()) {
             User user = userOptional.get();
             user.setPassword(password);
             return userRepository3.save(user); // Return the updated user

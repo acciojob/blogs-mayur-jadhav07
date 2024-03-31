@@ -1,4 +1,7 @@
+
 package com.driver.models;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -6,35 +9,57 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "blogs")
+@Table
 public class Blog {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
+
     private String title;
     private String content;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_at")
+    @CreationTimestamp
     private Date pubDate;
 
     @ManyToOne
     @JoinColumn
     private User user;
 
-    public List<Image> getImageList() {
-        return imageList;
-    }
-
-    public void setImageList(List<Image> imageList) {
-        this.imageList = imageList;
-    }
-
     @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL)
     private List<Image> imageList = new ArrayList<>();
 
-    public Blog(){
-        this.pubDate = new Date();
+    public Blog() {
+    }
+
+    public Blog(String title, String content, Date pubDate, User user) {
+        this.title = title;
+        this.content = content;
+        this.pubDate = pubDate;
+        this.user = user;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public Date getPubDate() {
@@ -53,39 +78,11 @@ public class Blog {
         this.user = user;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public List<Image> getImageList() {
+        return imageList;
     }
 
-    public Blog(String title, String content) {
-        this.title = title;
-        this.content = content;
-    }
-
-    public Blog(int blogId, String title, String content) {
-        this.id = blogId;
-        this.title = title;
-        this.content = content;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
+    public void setImageList(List<Image> imageList) {
+        this.imageList = imageList;
     }
 }
